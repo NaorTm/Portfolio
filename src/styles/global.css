@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --color-ink: 12 18 31;
+  --color-paper: 247 245 240;
+  --color-accent: 44 110 255;
+  --color-accent-2: 248 168 0;
+  --color-muted: 112 122 140;
+}
+
+.dark {
+  color-scheme: dark;
+  --color-ink: 232 237 244;
+  --color-paper: 12 16 24;
+  --color-accent: 133 168 255;
+  --color-accent-2: 255 176 66;
+  --color-muted: 153 167 188;
+}
+
+html,
+body {
+  @apply bg-paper text-ink font-body antialiased;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+}
+
+a {
+  @apply text-ink transition-colors;
+}
+
+.grain {
+  background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.12) 1px, transparent 0);
+  background-size: 6px 6px;
+  opacity: 0.18;
+  mix-blend-mode: soft-light;
+}
+
+.animate-rise {
+  animation: rise 0.8s ease-out both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

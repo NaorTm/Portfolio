@@ -1,0 +1,99 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getProjects } from "../../lib/projects";
+
+export async function getStaticPaths() {
+  const { projects } = await getProjects();
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL ?? "/";
+const normalizeBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+const withBase = (path) =>
+  path.startsWith("/") ? `${normalizeBase}${path}` : path;
+const thumbnailUrl = project.thumbnail ? withBase(project.thumbnail) : null;
+const homeUrl = withBase("/");
+---
+<BaseLayout title={project.name} description={project.description}>
+  <section class="space-y-10 pb-12 pt-8">
+    <div class="space-y-4">
+      <a href={homeUrl} class="text-sm font-semibold text-accent">← Back</a>
+      <h1 class="font-display text-4xl font-semibold">{project.name}</h1>
+      <p class="text-base text-muted">{project.description}</p>
+    </div>
+    <div class="grid gap-8 lg:grid-cols-[1.3fr_0.7fr]">
+      <div class="space-y-6">
+        {thumbnailUrl ? (
+          <img
+            src={thumbnailUrl}
+            alt={`${project.name} preview`}
+            class="w-full rounded-3xl border border-ink/10 object-cover shadow-glow"
+          />
+        ) : (
+          <div class="flex h-64 items-center justify-center rounded-3xl border border-ink/10 bg-paper/80 text-sm text-muted">
+            No preview available
+          </div>
+        )}
+        <div class="rounded-3xl border border-ink/10 bg-paper/80 p-6 shadow-glow">
+          <h2 class="font-display text-2xl font-semibold">Impact</h2>
+          <p class="mt-3 text-sm text-muted">
+            {project.impact || "Add an impact statement in portfolio.config.json."}
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3 text-xs text-muted">
+            <span>★ {project.stars}</span>
+            <span>⑂ {project.forks}</span>
+            <span>{new Date(project.lastPushedAt).toLocaleDateString()}</span>
+          </div>
+        </div>
+      </div>
+      <div class="space-y-6">
+        <div class="rounded-3xl border border-ink/10 bg-paper/80 p-6 shadow-glow">
+          <h3 class="font-display text-xl font-semibold">Stack</h3>
+          <div class="mt-4 flex flex-wrap gap-2 text-sm">
+            {[...(project.languages ?? []), ...(project.tags ?? [])].map((tag) => (
+              <span class="rounded-full border border-ink/10 px-3 py-1 text-ink/70">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div class="rounded-3xl border border-ink/10 bg-paper/80 p-6 shadow-glow">
+          <h3 class="font-display text-xl font-semibold">Links</h3>
+          <div class="mt-4 flex flex-col gap-3 text-sm font-semibold">
+            <a
+              href={project.htmlUrl}
+              class="rounded-full border border-ink/20 px-4 py-2 transition hover:border-ink"
+            >
+              View Code
+            </a>
+            {project.demoUrl ? (
+              <a
+                href={project.demoUrl}
+                class="rounded-full bg-ink px-4 py-2 text-paper transition hover:-translate-y-0.5"
+              >
+                Live Demo
+              </a>
+            ) : null}
+          </div>
+        </div>
+        <div class="rounded-3xl border border-ink/10 bg-paper/80 p-6 shadow-glow">
+          <h3 class="font-display text-xl font-semibold">How to run</h3>
+          {project.howToRun ? (
+            <pre class="mt-3 whitespace-pre-wrap text-sm text-muted">
+              {project.howToRun}
+            </pre>
+          ) : (
+            <p class="mt-3 text-sm text-muted">
+              Add quick-start instructions in each repo README for a clear
+              local setup.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

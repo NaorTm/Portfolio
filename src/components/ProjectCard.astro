@@ -1,0 +1,70 @@
+---
+const { project } = Astro.props;
+const tags = [...(project.languages ?? []), ...(project.tags ?? [])].slice(0, 6);
+const demoUrl = project.demoUrl && project.demoUrl.length > 0 ? project.demoUrl : null;
+const baseUrl = import.meta.env.BASE_URL ?? "/";
+const normalizeBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+const withBase = (path) =>
+  path.startsWith("/") ? `${normalizeBase}${path}` : path;
+const thumbnailUrl = project.thumbnail ? withBase(project.thumbnail) : null;
+const detailsUrl = withBase(`/projects/${project.slug}`);
+---
+<article class="group flex h-full flex-col overflow-hidden rounded-3xl border border-ink/10 bg-paper/80 shadow-glow backdrop-blur transition hover:-translate-y-1">
+  <div class="relative h-40 overflow-hidden bg-ink/5">
+    {thumbnailUrl ? (
+      <img
+        src={thumbnailUrl}
+        alt={`${project.name} preview`}
+        class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+        loading="lazy"
+      />
+    ) : (
+      <div class="flex h-full w-full items-center justify-center bg-[conic-gradient(from_120deg,_rgba(44,110,255,0.15),_rgba(248,168,0,0.2),_transparent_70%)] text-xs uppercase tracking-[0.3em] text-muted">
+        No preview
+      </div>
+    )}
+  </div>
+  <div class="flex flex-1 flex-col gap-4 p-6">
+    <div class="space-y-2">
+      <h3 class="font-display text-xl font-semibold">{project.name}</h3>
+      <p class="text-sm text-muted">{project.description}</p>
+    </div>
+    <div class="flex flex-wrap gap-2 text-xs">
+      {tags.map((tag) => (
+        <span class="rounded-full border border-ink/10 px-3 py-1 text-ink/70">
+          {tag}
+        </span>
+      ))}
+    </div>
+    {project.impact ? (
+      <p class="text-sm text-ink/80">{project.impact}</p>
+    ) : null}
+    <div class="mt-auto flex flex-wrap items-center gap-4 text-xs text-muted">
+      <span>★ {project.stars}</span>
+      <span>⑂ {project.forks}</span>
+      <span>{new Date(project.lastPushedAt).toLocaleDateString()}</span>
+    </div>
+    <div class="flex flex-wrap gap-3 pt-2 text-sm font-semibold">
+      <a
+        href={project.htmlUrl}
+        class="rounded-full border border-ink/20 px-4 py-2 transition hover:border-ink"
+      >
+        Code
+      </a>
+      {demoUrl ? (
+        <a
+          href={demoUrl}
+          class="rounded-full bg-ink px-4 py-2 text-paper transition hover:-translate-y-0.5"
+        >
+          Demo
+        </a>
+      ) : null}
+      <a
+        href={detailsUrl}
+        class="rounded-full border border-transparent bg-accent/10 px-4 py-2 text-ink transition hover:bg-accent/20"
+      >
+        Details
+      </a>
+    </div>
+  </div>
+</article>

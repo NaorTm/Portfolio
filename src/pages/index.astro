@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import FeaturedProjects from "../components/FeaturedProjects.astro";
+import SkillsGrid from "../components/SkillsGrid.astro";
+import ResumeCTA from "../components/ResumeCTA.astro";
+import Contact from "../components/Contact.astro";
+import { getProjects } from "../lib/projects";
+
+const { config, projects } = await getProjects();
+---
+<BaseLayout>
+  <Hero
+    profile={config.profile}
+    resume={config.resume}
+    theme={config.site.theme}
+  />
+  <section id="about" class="py-12">
+    <div class="grid gap-8 rounded-3xl border border-ink/10 bg-paper/80 p-8 shadow-glow md:grid-cols-[1.2fr_0.8fr]">
+      <div class="space-y-4">
+        <p class="text-xs uppercase tracking-[0.3em] text-muted">About</p>
+        <h2 class="font-display text-3xl font-semibold">
+          Student engineer, systems mindset
+        </h2>
+        <p class="text-sm text-muted">{config.profile.bio}</p>
+      </div>
+      <div class="space-y-4 text-sm text-muted">
+        <div class="rounded-2xl border border-ink/10 bg-paper/80 p-4">
+          <p class="text-xs uppercase tracking-[0.2em] text-muted">Strengths</p>
+          <ul class="mt-3 space-y-2 text-sm text-ink/80">
+            <li class="flex items-start gap-3">
+              <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>
+              Solid fundamentals in algorithms, data structures, and systems.
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>
+              Hands-on hardware and software design experience from coursework.
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>
+              Clear, concise documentation and reproducible setup.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <FeaturedProjects projects={projects} />
+  <SkillsGrid skills={config.skills} />
+  <ResumeCTA resume={config.resume} />
+  <Contact social={config.social} contact={config.contact} />
+</BaseLayout>

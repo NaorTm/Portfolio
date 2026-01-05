@@ -1,0 +1,154 @@
+{
+  "site": {
+    "url": "https://naortm.github.io/Portfolio",
+    "basePath": "/Portfolio",
+    "title": "Naor Tiram, Developer Portfolio",
+    "description": "High impact projects in ML, systems, and applied engineering.",
+    "ogImage": "/og-image.png",
+    "theme": {
+      "default": "dark",
+      "allowToggle": true
+    }
+  },
+  "profile": {
+    "name": "Naor Tiram",
+    "headline": "MSc Electrical Engineering student · Computer Engineer",
+    "location": "Israel",
+    "bio": "Hello, I’m Naor. I turn complex data and systems into clear, reliable software with an ML-first mindset. I focus on solid engineering foundations, clean architecture, and reproducible results.",
+    "atGlance": [
+      "Target roles: Software / ML (open to related roles)",
+      "Availability: Internship or 60–80% now; full-time after graduation",
+      "Location: Hadera, Israel",
+      "Status: MSc EE student at Technion"
+    ]
+  },
+  "social": {
+    "github": "NaorTm",
+    "linkedin": "naortiram",
+    "email": "naortm@gmail.com"
+  },
+  "resume": {
+    "pdfPath": "/resume.pdf",
+    "highlights": [
+      "MSc Electrical Engineering, Technion (2024–present)",
+      "BSc Computer Engineering, Ruppin Academic Center (GPA 90)",
+      "Diploma in Network and Telecommunication (GPA 93)",
+      "Coursework: C/C++, ML/AI, Algorithms and Data Structures",
+      "Certifications: CCNA, AWS Cloud Fundamentals",
+      "Award: Machine Learning Hackathon winner"
+    ]
+  },
+  "github": {
+    "username": "NaorTm",
+    "featuredTopic": "featured",
+    "excludeForks": true,
+    "excludeArchived": true,
+    "maxRepos": 18,
+    "allowlist": [
+      "Rock-Paper-Scissors---Matlab",
+      "Image-Processing---Matlab",
+      "Rummy---C-",
+      "Monopoly---Cplus",
+      "Routing-data-C",
+      "CardsGameHTML",
+      "Night-Club-app---java",
+      "MIPS-Comiper-",
+      "FPGA-StopWatch",
+      "COVID19",
+      "Canon-ball",
+      "Final-Project",
+      "Block-Propagation-"
+    ],
+    "pinned": [
+      "Block-Propagation-",
+      "Monopoly---Cplus",
+      "FPGA-StopWatch",
+      "Canon-ball",
+      "COVID19",
+      "MIPS-Comiper-",
+      "Routing-data-C"
+    ],
+    "overrides": {
+      "Rock-Paper-Scissors---Matlab": {
+        "tags": ["MATLAB", "Game", "Logic"],
+        "impact": "Classic rock-paper-scissors implemented in MATLAB with clear game flow and input handling.",
+        "howToRun": "Open the folder in MATLAB and run Rock_paper_scissors.m (or open Rock_paper_scissors.fig and click Run)."
+      },
+      "Image-Processing---Matlab": {
+        "tags": ["MATLAB", "Image Processing"],
+        "impact": "Image processing exercises in MATLAB focused on filters and transformations.",
+        "howToRun": "Open the folder in MATLAB and run C_ImagebProcessing.m, then use the Load button to pick an image."
+      },
+      "Rummy---C-": {
+        "tags": ["C++", "Game", "OOP"],
+        "impact": "Rummy card game implementation in C++ with turn-based rules and deck logic.",
+        "howToRun": "Compile the sources (e.g. g++ *.cpp -o rummy) and run the executable."
+      },
+      "Monopoly---Cplus": {
+        "tags": ["C++", "Game", "OOP"],
+        "impact": "Monopoly game logic in C++ with player, board, and rule modeling.",
+        "howToRun": "Open boardGame.sln in Visual Studio and build/run, or compile boardGame/*.cpp with your C++ compiler."
+      },
+      "Routing-data-C": {
+        "tags": ["C", "Networking", "Routing"],
+        "impact": "Simulates a simple switch with multiple input/output ports to demonstrate routing flow.",
+        "howToRun": "Build: gcc \"main prog.c\" prog.c -o router. Run: router.exe in1.in in2.in in3.in in4.in route.txt (see files/)."
+      },
+      "CardsGameHTML": {
+        "tags": ["HTML", "JavaScript", "Frontend"],
+        "impact": "Browser-based card game UI built with HTML and JavaScript.",
+        "howToRun": "Open CardsGame/CardsGame.html in a browser."
+      },
+      "Night-Club-app---java": {
+        "tags": ["Java", "OOP", "Management System"],
+        "impact": "OOP-based management system for a night club with role-specific classes and inheritance.",
+        "howToRun": "Compile and run: javac *.java then java NightClubMgmtApp."
+      },
+      "MIPS-Comiper-": {
+        "tags": ["C", "MIPS", "Compilers"],
+        "impact": "Demonstrates MIPS compilation flow in C using instruction files and parsing.",
+        "howToRun": "Build: gcc mips.c -o mips. Run: mips.exe 0 0, then choose trace1.txt or trace2.txt."
+      },
+      "FPGA-StopWatch": {
+        "demoUrl": "https://www.youtube.com/watch?v=cVFWwiqZI68",
+        "tags": ["FPGA", "VHDL", "Digital Design"],
+        "impact": "Dual-mode stopwatch on FPGA with seconds/minutes and hundredths timing.",
+        "howToRun": "Open Stopper.qar in Intel Quartus, build, and program the DE0 board."
+      },
+      "COVID19": {
+        "tags": ["Node.js", "API", "Database"],
+        "impact": "Backend API to manage COVID-19 patient records, contacts, tests, and status tracking.",
+        "howToRun": "npm install && npm start (server runs on http://localhost:3000)."
+      },
+      "Canon-ball": {
+        "demoUrl": "https://www.youtube.com/watch?v=raZimmcXVxw",
+        "tags": ["VHDL", "FPGA", "Game"],
+        "impact": "FPGA game implementing projectile mechanics and target hits on a DE0 board.",
+        "howToRun": "Open the project in Quartus using FPGA_Proj.tcl, build, and program the DE0 board."
+      },
+      "Final-Project": {
+        "tags": ["Python", "Flask", "React", "Analytics"],
+        "impact": "Full-stack analytics dashboard with a Flask API and React front-end over a CSV dataset.",
+        "howToRun": "Backend: cd Product/Back && pip install flask flask-cors numpy pandas scipy && python app.py. Frontend: cd Product/Front/final-project-front && npm install && npm start."
+      },
+      "Block-Propagation-": {
+        "tags": ["Python", "P2P", "Network Simulation", "Graph Theory"],
+        "thumbnail": "/projects/block-prop.png",
+        "impact": "Simulation of block propagation over P2P networks with topology, latency, and protocol comparisons.",
+        "howToRun": "pip install -r requirements.txt && python simulation.py --protocol naive"
+      }
+    }
+  },
+  "skills": {
+    "Languages": ["C", "C++", "Python", "Java", "JavaScript", "C#", "MATLAB", "VHDL"],
+    "ML/AI": ["Machine Learning", "Artificial Intelligence"],
+    "CS Fundamentals": ["Algorithms", "Data Structures"],
+    "Systems": ["Networking", "Telecom", "IT Support"],
+    "Soft Skills": ["Communication", "Teamwork", "Problem-solving", "Leadership"]
+  },
+  "contact": {
+  "enableForm": true,
+  "formProvider": "formspree",
+  "formEndpoint": "https://formspree.io/f/YOUR_ID"
+  }
+}

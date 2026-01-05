@@ -1,0 +1,78 @@
+---
+const { social, contact } = Astro.props;
+const formEnabled = contact?.enableForm && contact?.formEndpoint;
+---
+<section id="contact" class="scroll-mt-24 py-12">
+  <div class="grid gap-10 md:grid-cols-[1fr_1.1fr]">
+    <div class="space-y-4">
+      <p class="text-xs uppercase tracking-[0.3em] text-muted">Contact</p>
+      <h2 class="font-display text-3xl font-semibold">Let’s talk impact</h2>
+      <p class="text-sm text-muted">
+        Fast response, clear next steps, and documentation ready.
+      </p>
+      <div class="flex flex-col gap-3 text-sm">
+        <a
+          href={`https://github.com/${social.github}`}
+          class="rounded-full border border-ink/15 px-4 py-2 transition hover:border-ink"
+        >
+          GitHub
+        </a>
+        <a
+          href={`https://linkedin.com/in/${social.linkedin}`}
+          class="rounded-full border border-ink/15 px-4 py-2 transition hover:border-ink"
+        >
+          LinkedIn
+        </a>
+        <a
+          href={`mailto:${social.email}`}
+          class="rounded-full border border-ink/15 px-4 py-2 transition hover:border-ink"
+        >
+          {social.email}
+        </a>
+      </div>
+    </div>
+    <div class="rounded-3xl border border-ink/10 bg-paper/80 p-6 shadow-glow">
+      <h3 class="font-display text-xl font-semibold">Quick message</h3>
+      {formEnabled ? (
+        <form
+          class="mt-6 space-y-4 text-sm"
+          method="post"
+          action={contact.formEndpoint}
+        >
+          <input
+            class="w-full rounded-xl border border-ink/10 bg-transparent px-4 py-3"
+            type="text"
+            name="name"
+            placeholder="Your name"
+            required
+          />
+          <input
+            class="w-full rounded-xl border border-ink/10 bg-transparent px-4 py-3"
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+          />
+          <textarea
+            class="w-full rounded-xl border border-ink/10 bg-transparent px-4 py-3"
+            name="message"
+            rows="4"
+            placeholder="What would you like to build?"
+            required
+          ></textarea>
+          <button
+            class="rounded-full bg-ink px-6 py-3 text-paper transition hover:-translate-y-0.5"
+            type="submit"
+          >
+            Send message
+          </button>
+        </form>
+      ) : (
+        <p class="mt-4 text-sm text-muted">
+          Form disabled. Enable it in <code>portfolio.config.json</code> to add
+          a provider endpoint.
+        </p>
+      )}
+    </div>
+  </div>
+</section>

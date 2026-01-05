@@ -1,0 +1,38 @@
+---
+import ProjectCard from "./ProjectCard.astro";
+
+const { projects } = Astro.props;
+const owner = projects[0]?.fullName?.split("/")[0];
+const hasProjects = projects.length > 0;
+---
+<section id="projects" class="animate-rise scroll-mt-24 py-12">
+  <div class="flex flex-wrap items-end justify-between gap-6">
+    <div class="space-y-2">
+      <p class="text-xs uppercase tracking-[0.3em] text-muted">Featured</p>
+      <h2 class="font-display text-3xl font-semibold">Projects that deliver</h2>
+      <p class="text-sm text-muted">
+        Pinned for impact, sorted by recent momentum.
+      </p>
+    </div>
+    {owner ? (
+      <a
+        href={`https://github.com/${owner}`}
+        class="text-sm font-semibold text-accent"
+      >
+        View GitHub →
+      </a>
+    ) : null}
+  </div>
+  {hasProjects ? (
+    <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {projects.map((project) => (
+        <ProjectCard project={project} />
+      ))}
+    </div>
+  ) : (
+    <div class="mt-6 rounded-3xl border border-ink/10 bg-paper/70 p-6 text-sm text-muted">
+      No featured repositories found. Add the `featured` topic or update the
+      allowlist in `portfolio.config.json`.
+    </div>
+  )}
+</section>

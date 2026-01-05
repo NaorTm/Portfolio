@@ -1,0 +1,25 @@
+---
+const { skills } = Astro.props;
+const entries = Object.entries(skills ?? {});
+---
+<section id="skills" class="py-12">
+  <div class="space-y-2">
+    <p class="text-xs uppercase tracking-[0.3em] text-muted">Skills</p>
+    <h2 class="font-display text-3xl font-semibold">Technical strengths</h2>
+  </div>
+  <div class="mt-8 grid gap-6 md:grid-cols-2">
+    {entries.map(([group, items]) => (
+      <div class="rounded-2xl border border-ink/10 bg-paper/70 p-6 shadow-glow">
+        <h3 class="font-display text-lg font-semibold">{group}</h3>
+        <div class="mt-4 flex flex-wrap gap-2 text-sm text-ink/80">
+          {items.map((item) => (
+            <span class="inline-flex items-center gap-2 rounded-full border border-ink/10 px-3 py-1">
+              <span class="h-2 w-2 rounded-full bg-accent2"></span>
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

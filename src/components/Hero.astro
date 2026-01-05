@@ -1,0 +1,70 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+
+const { profile, resume, theme } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL ?? "/";
+const normalizeBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+const resumePath = resume.pdfPath.startsWith("/")
+  ? `${normalizeBase}${resume.pdfPath}`
+  : resume.pdfPath;
+---
+<section class="animate-rise flex flex-col gap-10 pb-8 pt-10">
+  <div class="flex flex-wrap items-center justify-between gap-6">
+    <div class="space-y-4">
+      <p class="text-xs uppercase tracking-[0.3em] text-muted">Portfolio</p>
+      <h1 class="font-display text-4xl font-semibold leading-tight md:text-5xl">
+        {profile.name}
+      </h1>
+      <p class="text-lg text-muted md:text-xl">{profile.headline}</p>
+    </div>
+    <ThemeToggle enabled={theme?.allowToggle} />
+  </div>
+  <div class="grid gap-8 md:grid-cols-[1.2fr_0.8fr]">
+    <div class="space-y-6 text-base leading-relaxed text-ink/80 md:text-lg">
+      <p>{profile.bio}</p>
+      {profile.location ? (
+        <p class="flex items-center gap-3 text-sm text-muted">
+          <span class="h-2 w-2 rounded-full bg-accent2"></span>
+          {profile.location}
+        </p>
+      ) : null}
+      <div class="flex flex-wrap gap-4">
+        <a
+          href="#projects"
+          class="rounded-full bg-ink px-6 py-3 text-sm font-semibold text-paper shadow-glow transition hover:-translate-y-0.5"
+        >
+          Explore Projects
+        </a>
+        <a
+          href={resumePath}
+          class="rounded-full border border-ink/30 px-6 py-3 text-sm font-semibold transition hover:border-ink"
+        >
+          Download Resume (PDF)
+        </a>
+        <a
+          href="#contact"
+          class="rounded-full border border-transparent bg-accent/10 px-6 py-3 text-sm font-semibold text-ink transition hover:bg-accent/20"
+        >
+          Contact
+        </a>
+      </div>
+    </div>
+    <div class="rounded-3xl border border-ink/10 bg-paper/80 p-6 shadow-glow backdrop-blur">
+      <p class="text-sm uppercase tracking-[0.2em] text-muted">
+        Recruiter TL;DR
+      </p>
+      <ul class="mt-4 space-y-3 text-sm text-ink/80">
+        {profile.atGlance?.length ? (
+          profile.atGlance.map((item) => (
+            <li class="flex items-start gap-3">
+              <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>
+              {item}
+            </li>
+          ))
+        ) : (
+          <li class="text-muted">Add highlights in portfolio.config.json.</li>
+        )}
+      </ul>
+    </div>
+  </div>
+</section>
