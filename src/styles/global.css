@@ -5,19 +5,19 @@
 :root {
   color-scheme: light;
   --color-ink: 12 18 31;
-  --color-paper: 247 245 240;
-  --color-accent: 44 110 255;
-  --color-accent-2: 248 168 0;
-  --color-muted: 112 122 140;
+  --color-paper: 250 250 252;
+  --color-accent: 59 130 246;
+  --color-accent-2: 251 146 60;
+  --color-muted: 100 116 139;
 }
 
 .dark {
   color-scheme: dark;
-  --color-ink: 232 237 244;
-  --color-paper: 12 16 24;
-  --color-accent: 133 168 255;
-  --color-accent-2: 255 176 66;
-  --color-muted: 153 167 188;
+  --color-ink: 241 245 249;
+  --color-paper: 15 23 42;
+  --color-accent: 96 165 250;
+  --color-accent-2: 251 146 60;
+  --color-muted: 148 163 184;
 }
 
 html,
@@ -37,27 +37,88 @@ a {
   @apply text-ink transition-colors;
 }
 
+/* Selection color */
+::selection {
+  @apply bg-accent/30 text-ink;
+}
+
+/* Focus styles */
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-accent;
+}
+
 .grain {
-  background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.12) 1px, transparent 0);
-  background-size: 6px 6px;
-  opacity: 0.18;
+  background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.08) 1px, transparent 0);
+  background-size: 4px 4px;
+  opacity: 0.15;
   mix-blend-mode: soft-light;
 }
 
+/* Improved animations */
 .animate-rise {
-  animation: rise 0.8s ease-out both;
+  animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Staggered animation delays */
+.stagger-1 { animation-delay: 100ms; }
+.stagger-2 { animation-delay: 200ms; }
+.stagger-3 { animation-delay: 300ms; }
+.stagger-4 { animation-delay: 400ms; }
+.stagger-5 { animation-delay: 500ms; }
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -66,4 +127,33 @@ a {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Improved button hover states */
+.btn-primary {
+  @apply relative overflow-hidden transition-all duration-300;
+}
+
+.btn-primary::before {
+  @apply absolute inset-0 -z-10 bg-gradient-to-r from-accent to-accent2 opacity-0 transition-opacity;
+  content: '';
+}
+
+.btn-primary:hover::before {
+  @apply opacity-100;
 }

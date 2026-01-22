@@ -1,70 +1,162 @@
 ---
-import ThemeToggle from "./ThemeToggle.astro";
-
 const { profile, resume, theme } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL ?? "/";
 const normalizeBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
 const resumePath = resume.pdfPath.startsWith("/")
   ? `${normalizeBase}${resume.pdfPath}`
   : resume.pdfPath;
+const avatarSrc = `${normalizeBase}/og-image.png`;
+
+const firstName = profile.name.split(" ")[0];
+const lastName = profile.name.split(" ").slice(1).join(" ");
+const proofStrip = profile.proofStrip ?? [];
 ---
-<section class="animate-rise flex flex-col gap-10 pb-8 pt-10">
-  <div class="flex flex-wrap items-center justify-between gap-6">
-    <div class="space-y-4">
-      <p class="text-xs uppercase tracking-[0.3em] text-muted">Portfolio</p>
-      <h1 class="font-display text-4xl font-semibold leading-tight md:text-5xl">
-        {profile.name}
-      </h1>
-      <p class="text-lg text-muted md:text-xl">{profile.headline}</p>
+<section class="relative flex min-h-[85vh] flex-col justify-center pb-12 pt-24">
+  <!-- Decorative elements -->
+  <div class="pointer-events-none absolute -left-32 top-1/4 h-64 w-64 rounded-full bg-accent/20 blur-[100px]"></div>
+  <div class="pointer-events-none absolute -right-32 top-1/3 h-72 w-72 rounded-full bg-accent2/15 blur-[100px]"></div>
+  
+  <div class="animate-rise space-y-6">
+    <!-- Status badge -->
+    <div class="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-2">
+      <span class="relative flex h-2 w-2">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+        <span class="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
+      </span>
+      <span class="text-sm font-medium text-ink/80">Open to opportunities</span>
     </div>
-    <ThemeToggle enabled={theme?.allowToggle} />
-  </div>
-  <div class="grid gap-8 md:grid-cols-[1.2fr_0.8fr]">
-    <div class="space-y-6 text-base leading-relaxed text-ink/80 md:text-lg">
-      <p>{profile.bio}</p>
-      {profile.location ? (
-        <p class="flex items-center gap-3 text-sm text-muted">
-          <span class="h-2 w-2 rounded-full bg-accent2"></span>
-          {profile.location}
-        </p>
-      ) : null}
-      <div class="flex flex-wrap gap-4">
-        <a
-          href="#projects"
-          class="rounded-full bg-ink px-6 py-3 text-sm font-semibold text-paper shadow-glow transition hover:-translate-y-0.5"
-        >
-          Explore Projects
-        </a>
-        <a
-          href={resumePath}
-          class="rounded-full border border-ink/30 px-6 py-3 text-sm font-semibold transition hover:border-ink"
-        >
-          Download Resume (PDF)
-        </a>
-        <a
-          href="#contact"
-          class="rounded-full border border-transparent bg-accent/10 px-6 py-3 text-sm font-semibold text-ink transition hover:bg-accent/20"
-        >
-          Contact
-        </a>
+    
+    <!-- Main heading -->
+    <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+      <div class="space-y-3">
+        <h1 class="font-display text-5xl font-bold leading-[1.1] tracking-tight md:text-7xl">
+          <span>{firstName} </span>
+          <span class="bg-gradient-to-r from-accent via-accent to-accent2 bg-clip-text text-transparent">
+            {lastName}
+          </span>
+        </h1>
+        <p class="max-w-xl text-lg text-muted md:text-xl">{profile.headline}</p>
+      </div>
+      <div class="flex justify-start md:justify-end">
+        <img
+          src={avatarSrc}
+          alt={`${profile.name} headshot`}
+          class="h-36 w-36 rounded-2xl object-cover ring-2 ring-ink/10 shadow-lg md:h-40 md:w-40"
+          loading="eager"
+          decoding="async"
+        />
       </div>
     </div>
-    <div class="rounded-3xl border border-ink/10 bg-paper/80 p-6 shadow-glow backdrop-blur">
-      <p class="text-sm uppercase tracking-[0.2em] text-muted">
-        Recruiter TL;DR
+    
+    <!-- Signature tagline -->
+    {profile.tagline && (
+      <p class="max-w-2xl text-base font-medium italic text-ink/60 md:text-lg">
+        "{profile.tagline}"
       </p>
-      <ul class="mt-4 space-y-3 text-sm text-ink/80">
-        {profile.atGlance?.length ? (
-          profile.atGlance.map((item) => (
-            <li class="flex items-start gap-3">
-              <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>
-              {item}
-            </li>
-          ))
-        ) : (
-          <li class="text-muted">Add highlights in portfolio.config.json.</li>
-        )}
-      </ul>
+    )}
+    
+    <!-- Bio - the main value prop -->
+    <p class="max-w-2xl text-xl font-medium leading-relaxed text-ink md:text-2xl">
+      {profile.bio}
+    </p>
+    
+    <!-- Proof Strip - chips -->
+    {proofStrip.length > 0 && (
+      <div class="flex flex-wrap items-center gap-2">
+        {proofStrip.map((item, i) => (
+          <span class="inline-flex items-center rounded-full bg-ink/10 px-4 py-1.5 text-sm font-medium text-ink/80">
+            {item}
+          </span>
+        ))}
+      </div>
+    )}
+    
+    <!-- Location -->
+    {profile.location ? (
+      <p class="flex items-center gap-2 text-sm text-muted">
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        {profile.location} (open to hybrid/remote)
+      </p>
+    ) : null}
+    
+    <!-- CTA Buttons -->
+    <div class="flex flex-wrap items-start gap-4 pt-2">
+      <div class="flex flex-col gap-2">
+        <a
+          href="#projects"
+          class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-ink px-8 py-4 text-sm font-semibold text-paper shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+        >
+          <span class="relative z-10">See Projects (demos + results)</span>
+          <svg class="relative z-10 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+          <div class="absolute inset-0 -z-0 bg-gradient-to-r from-accent to-accent2 opacity-0 transition-opacity group-hover:opacity-100"></div>
+        </a>
+        <span class="ml-2 text-xs text-muted">Pick any project: design + results + code</span>
+      </div>
+      <a
+        href={resumePath}
+        class="inline-flex items-center gap-2 rounded-full border-2 border-ink/20 px-8 py-4 text-sm font-semibold transition-all duration-300 hover:-translate-y-1 hover:border-ink hover:shadow-lg"
+      >
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        Resume PDF
+      </a>
+      <a
+        href="#contact"
+        class="inline-flex items-center gap-2 rounded-full bg-accent/10 px-8 py-4 text-sm font-semibold text-ink transition-all duration-300 hover:-translate-y-1 hover:bg-accent/20"
+      >
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+        Contact
+      </a>
     </div>
+  </div>
+  
+  <!-- Recruiter TL;DR Card -->
+  <div class="animate-rise mt-12 [animation-delay:200ms]">
+    <div class="relative overflow-hidden rounded-3xl border border-ink/10 bg-gradient-to-br from-paper/90 to-paper/70 p-8 shadow-xl backdrop-blur-sm">
+      <div class="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-accent/10 blur-2xl"></div>
+      <div class="relative">
+        <div class="flex items-center gap-3">
+          <div class="flex h-8 w-8 items-center justify-center rounded-full bg-accent/20">
+            <svg class="h-4 w-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-muted">
+            Recruiter TL;DR
+          </p>
+        </div>
+        <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {profile.atGlance?.length ? (
+            profile.atGlance.map((item) => {
+              const [label, ...rest] = item.split(": ");
+              const value = rest.join(": ");
+              return (
+                <div class="rounded-xl bg-ink/5 p-4 transition-colors hover:bg-ink/10">
+                  <p class="text-xs font-semibold uppercase tracking-wide text-accent">{label}</p>
+                  <p class="mt-1 text-sm text-ink/80">{value || item}</p>
+                </div>
+              );
+            })
+          ) : (
+            <p class="text-muted">Add highlights in portfolio.config.json.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+    <svg class="h-6 w-6 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+    </svg>
   </div>
 </section>

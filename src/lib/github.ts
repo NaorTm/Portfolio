@@ -2,7 +2,8 @@ const API_BASE = "https://api.github.com";
 const API_VERSION = "2022-11-28";
 
 function getAuthHeaders() {
-  const token = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN;
+  // Try import.meta.env first (Astro), then process.env (Node)
+  const token = import.meta.env.GITHUB_TOKEN ?? import.meta.env.GH_TOKEN ?? process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN;
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 

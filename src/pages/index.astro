@@ -1,7 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
-import FeaturedProjects from "../components/FeaturedProjects.astro";
+import FeaturedHighlights from "../components/FeaturedHighlights.astro";
 import SkillsGrid from "../components/SkillsGrid.astro";
 import ResumeCTA from "../components/ResumeCTA.astro";
 import Contact from "../components/Contact.astro";
@@ -10,42 +11,90 @@ import { getProjects } from "../lib/projects";
 const { config, projects } = await getProjects();
 ---
 <BaseLayout>
+  <Header theme={config.site.theme} />
   <Hero
     profile={config.profile}
     resume={config.resume}
     theme={config.site.theme}
   />
-  <section id="about" class="py-12">
-    <div class="grid gap-8 rounded-3xl border border-ink/10 bg-paper/80 p-8 shadow-glow md:grid-cols-[1.2fr_0.8fr]">
-      <div class="space-y-4">
-        <p class="text-xs uppercase tracking-[0.3em] text-muted">About</p>
-        <h2 class="font-display text-3xl font-semibold">
-          Student engineer, systems mindset
-        </h2>
-        <p class="text-sm text-muted">{config.profile.bio}</p>
+  
+  <!-- Featured Highlights - before About -->
+  <FeaturedHighlights />
+  
+  <section id="about" class="scroll-mt-24 py-16">
+    <div class="grid gap-8 lg:grid-cols-[1.3fr_0.7fr]">
+      <!-- Main About Card -->
+      <div class="relative overflow-hidden rounded-3xl border border-ink/10 bg-gradient-to-br from-paper to-paper/80 p-8 shadow-xl">
+        <div class="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent/10 blur-[60px]"></div>
+        <div class="relative space-y-6">
+          <div class="inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-sm font-medium text-accent">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            About Me
+          </div>
+          <h2 class="font-display text-4xl font-bold leading-tight">
+            Engineer with a<br/>
+            <span class="bg-gradient-to-r from-accent to-accent2 bg-clip-text text-transparent">systems mindset</span>
+          </h2>
+          <p class="text-lg leading-relaxed text-ink/80">
+            I like projects where correctness and performance matter: systems, ML pipelines, and tools that must work reliably under real constraints.
+          </p>
+          <p class="text-base text-muted">
+            Currently pursuing my MSc in Electrical Engineering at Technion, building on a BSc in Computer Engineering. My work spans from low-level systems (FPGA, compilers) to full-stack applications and ML experiments.
+          </p>
+        </div>
       </div>
-      <div class="space-y-4 text-sm text-muted">
-        <div class="rounded-2xl border border-ink/10 bg-paper/80 p-4">
-          <p class="text-xs uppercase tracking-[0.2em] text-muted">Strengths</p>
-          <ul class="mt-3 space-y-2 text-sm text-ink/80">
-            <li class="flex items-start gap-3">
-              <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>
-              Solid fundamentals in algorithms, data structures, and systems.
+      
+      <!-- What I Build Card -->
+      <div class="flex flex-col gap-4">
+        <div class="flex-1 rounded-2xl border border-ink/10 bg-gradient-to-br from-paper to-accent/5 p-6 shadow-lg">
+          <div class="mb-4 flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10">
+              <svg class="h-5 w-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+              </svg>
+            </div>
+            <h3 class="font-display text-lg font-bold">What I Build</h3>
+          </div>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 rounded-xl bg-paper/50 p-3">
+              <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
+                <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="text-sm text-ink/80">ML systems with clean architecture and reproducible experiments</span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>
-              Hands-on hardware and software design experience from coursework.
+            <li class="flex items-start gap-3 rounded-xl bg-paper/50 p-3">
+              <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
+                <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="text-sm text-ink/80">Backend systems and APIs with performance in mind</span>
             </li>
-            <li class="flex items-start gap-3">
-              <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>
-              Clear, concise documentation and reproducible setup.
+            <li class="flex items-start gap-3 rounded-xl bg-paper/50 p-3">
+              <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
+                <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="text-sm text-ink/80">Simulations and engineering tools that actually work</span>
+            </li>
+            <li class="flex items-start gap-3 rounded-xl bg-paper/50 p-3">
+              <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
+                <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="text-sm text-ink/80">Low-level systems: compilers, FPGA, embedded</span>
             </li>
           </ul>
         </div>
       </div>
     </div>
   </section>
-  <FeaturedProjects projects={projects} />
   <SkillsGrid skills={config.skills} />
   <ResumeCTA resume={config.resume} />
   <Contact social={config.social} contact={config.contact} />

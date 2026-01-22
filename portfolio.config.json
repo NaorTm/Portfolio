@@ -12,14 +12,17 @@
   },
   "profile": {
     "name": "Naor Tiram",
-    "headline": "MSc Electrical Engineering student · Computer Engineer",
-    "location": "Israel",
-    "bio": "Hello, I’m Naor. I turn complex data and systems into clear, reliable software with an ML-first mindset. I focus on solid engineering foundations, clean architecture, and reproducible results.",
+    "headline": "MSc Student Electrical Engineering @ Technion · BSc Computer Engineer",
+    "tagline": "I don't just train models — I build the system around them.",
+    "location": "Hadera, Israel",
+    "bio": "I build ML-driven systems that are fast, reproducible, and production-ready — from research code to real software.",
+    "proofStrip": ["Hackathon Winner", "ML Systems", "C/C++ + Python", "Simulations", "Security Tooling"],
     "atGlance": [
-      "Target roles: Software / ML (open to related roles)",
-      "Availability: Internship or 60–80% now; full-time after graduation",
-      "Location: Hadera, Israel",
-      "Status: MSc EE student at Technion"
+      "What I do: ML + backend systems, simulations, engineering tools",
+      "Strongest at: Clean architecture, reproducible experiments, performance-minded code",
+      "Looking for: Software Engineer / ML Engineer (open to related roles)",
+      "Availability: 60–80% now, full-time after graduation",
+      "Location: Hadera, Israel (open to hybrid/remote)"
     ]
   },
   "social": {
@@ -45,13 +48,7 @@
     "excludeArchived": true,
     "maxRepos": 18,
     "allowlist": [
-      "Rock-Paper-Scissors---Matlab",
-      "Image-Processing---Matlab",
-      "Rummy---C-",
       "Monopoly---Cplus",
-      "Routing-data-C",
-      "CardsGameHTML",
-      "Night-Club-app---java",
       "MIPS-Comiper-",
       "FPGA-StopWatch",
       "COVID19",
@@ -61,12 +58,12 @@
     ],
     "pinned": [
       "Block-Propagation-",
-      "Monopoly---Cplus",
+      "Final-Project",
+      "MIPS-Comiper-",
       "FPGA-StopWatch",
       "Canon-ball",
       "COVID19",
-      "MIPS-Comiper-",
-      "Routing-data-C"
+      "Monopoly---Cplus"
     ],
     "overrides": {
       "Rock-Paper-Scissors---Matlab": {

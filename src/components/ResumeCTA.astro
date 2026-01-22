@@ -6,27 +6,48 @@ const resumePath = resume.pdfPath.startsWith("/")
   ? `${normalizeBase}${resume.pdfPath}`
   : resume.pdfPath;
 ---
-<section id="resume" class="py-12">
-  <div class="rounded-3xl border border-ink/10 bg-ink/95 p-8 text-paper shadow-glow">
-    <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-      <div class="space-y-3">
-        <p class="text-xs uppercase tracking-[0.3em] text-paper/60">Resume</p>
-        <h2 class="font-display text-3xl font-semibold">Quick highlights</h2>
-        <ul class="space-y-2 text-sm text-paper/80">
-          {resume.highlights.map((item) => (
-            <li class="flex items-start gap-3">
-              <span class="mt-1 h-2 w-2 rounded-full bg-accent2"></span>
-              {item}
+<section id="resume" class="scroll-mt-24 py-20">
+  <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-ink via-ink to-ink/90 p-8 shadow-2xl md:p-12">
+    <!-- Decorative elements -->
+    <div class="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-accent/20 blur-[80px]"></div>
+    <div class="pointer-events-none absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-accent2/20 blur-[80px]"></div>
+    <div class="pointer-events-none absolute right-1/4 top-1/2 h-32 w-32 rounded-full bg-accent/10 blur-[60px]"></div>
+    
+    <div class="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+      <div class="space-y-6">
+        <div class="inline-flex items-center gap-2 rounded-full bg-paper/10 px-4 py-2 text-sm font-medium text-paper/80">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Resume
+        </div>
+        <h2 class="font-display text-4xl font-bold text-paper">Education & Experience</h2>
+        <ul class="grid gap-3 sm:grid-cols-2">
+          {resume.highlights.map((item, i) => (
+            <li class="flex items-start gap-3 rounded-xl bg-paper/5 p-3 backdrop-blur-sm">
+              <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-accent to-accent2 text-xs font-bold text-paper">
+                {i + 1}
+              </span>
+              <span class="text-sm text-paper/80">{item}</span>
             </li>
           ))}
         </ul>
       </div>
-      <a
-        href={resumePath}
-        class="rounded-full bg-paper px-6 py-3 text-sm font-semibold text-ink transition hover:-translate-y-0.5"
-      >
-        Download Resume (PDF)
-      </a>
+      <div class="flex flex-col items-center gap-4 lg:items-end">
+        <a
+          href={resumePath}
+          class="group inline-flex items-center gap-3 rounded-2xl bg-paper px-8 py-4 font-semibold text-ink shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
+        >
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Download Resume
+          <svg class="h-4 w-4 transition-transform group-hover:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
+        <p class="text-sm text-paper/50">PDF format, always up to date</p>
+      </div>
     </div>
   </div>
 </section>
