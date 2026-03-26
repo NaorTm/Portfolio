@@ -57,17 +57,11 @@ const allowToggle = config.site.theme?.allowToggle ?? true;
     </script>
   </head>
   <body class="relative overflow-x-hidden">
-    <div class="pointer-events-none fixed inset-0 -z-10">
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(59,130,246,0.15),_transparent)] dark:bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(96,165,250,0.12),_transparent)]"></div>
-      <div class="absolute -left-32 top-1/4 h-96 w-96 rounded-full bg-accent/5 blur-[100px]"></div>
-      <div class="absolute -right-32 top-2/3 h-96 w-96 rounded-full bg-accent2/5 blur-[100px]"></div>
-      <div class="grain absolute inset-0"></div>
-    </div>
-    <main class="mx-auto w-full max-w-6xl px-6 pb-12 pt-6">
+    <main class="mx-auto w-full max-w-5xl px-6 pb-16 pt-6">
       <slot />
     </main>
     <footer class="border-t border-ink/10 py-8">
-      <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 text-sm text-muted sm:flex-row">
+      <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 px-6 text-sm text-muted sm:flex-row">
         <p>&copy; {new Date().getFullYear()} {config.profile.name}. All rights reserved.</p>
         <div class="flex items-center gap-4">
           <a href={`https://github.com/${config.social.github}`} class="transition-colors hover:text-ink">GitHub</a>

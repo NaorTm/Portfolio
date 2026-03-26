@@ -1,101 +1,116 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
-import Hero from "../components/Hero.astro";
 import FeaturedHighlights from "../components/FeaturedHighlights.astro";
+import FeaturedProjects from "../components/FeaturedProjects.astro";
 import SkillsGrid from "../components/SkillsGrid.astro";
 import ResumeCTA from "../components/ResumeCTA.astro";
 import Contact from "../components/Contact.astro";
 import { getProjects } from "../lib/projects";
 
 const { config, projects } = await getProjects();
+const baseUrl = import.meta.env.BASE_URL ?? "/";
+const normalizeBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+const resumePath = config.resume.pdfPath.startsWith("/")
+  ? `${normalizeBase}${config.resume.pdfPath}`
+  : config.resume.pdfPath;
+const avatarSrc = `${normalizeBase}/og-image.png`;
 ---
 <BaseLayout>
   <Header theme={config.site.theme} />
-  <Hero
-    profile={config.profile}
-    resume={config.resume}
-    theme={config.site.theme}
-  />
-  
-  <!-- Featured Highlights - before About -->
-  <FeaturedHighlights />
-  
-  <section id="about" class="scroll-mt-24 py-16">
-    <div class="grid gap-8 lg:grid-cols-[1.3fr_0.7fr]">
-      <!-- Main About Card -->
-      <div class="relative overflow-hidden rounded-3xl border border-ink/10 bg-gradient-to-br from-paper to-paper/80 p-8 shadow-xl">
-        <div class="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent/10 blur-[60px]"></div>
-        <div class="relative space-y-6">
-          <div class="inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 text-sm font-medium text-accent">
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+
+  <!-- Summary / Homepage -->
+  <section class="pt-28 pb-10 border-b border-ink/10">
+    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-8">
+      <div class="space-y-4 max-w-lg">
+        <div>
+          <h1 class="font-display text-3xl font-bold tracking-tight">{config.profile.name}</h1>
+          <p class="mt-1 text-sm text-muted">{config.profile.headline}</p>
+        </div>
+        <p class="text-ink/80 leading-relaxed">{config.profile.bio}</p>
+        {config.profile.location && (
+          <p class="flex items-center gap-1.5 text-sm text-muted">
+            <svg class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-            About Me
-          </div>
-          <h2 class="font-display text-4xl font-bold leading-tight">
-            Engineer with a<br/>
-            <span class="bg-gradient-to-r from-accent to-accent2 bg-clip-text text-transparent">systems mindset</span>
-          </h2>
-          <p class="text-lg leading-relaxed text-ink/80">
-            I like projects where correctness and performance matter: systems, ML pipelines, and tools that must work reliably under real constraints.
+            {config.profile.location}
           </p>
-          <p class="text-base text-muted">
-            Currently pursuing my MSc in Electrical Engineering at Technion, building on a BSc in Computer Engineering. My work spans from low-level systems (FPGA, compilers) to full-stack applications and ML experiments.
-          </p>
+        )}
+        <div class="flex flex-wrap gap-5 pt-1">
+          <a href={`https://github.com/${config.social.github}`} target="_blank" rel="noopener noreferrer" class="text-sm text-muted transition-colors hover:text-ink">GitHub</a>
+          <a href={`https://linkedin.com/in/${config.social.linkedin}`} target="_blank" rel="noopener noreferrer" class="text-sm text-muted transition-colors hover:text-ink">LinkedIn</a>
+          <a href={`mailto:${config.social.email}`} class="text-sm text-muted transition-colors hover:text-ink">{config.social.email}</a>
+          <a href={resumePath} target="_blank" rel="noopener noreferrer" class="text-sm text-muted transition-colors hover:text-ink">Resume PDF</a>
         </div>
       </div>
-      
-      <!-- What I Build Card -->
-      <div class="flex flex-col gap-4">
-        <div class="flex-1 rounded-2xl border border-ink/10 bg-gradient-to-br from-paper to-accent/5 p-6 shadow-lg">
-          <div class="mb-4 flex items-center gap-3">
-            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10">
-              <svg class="h-5 w-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-              </svg>
-            </div>
-            <h3 class="font-display text-lg font-bold">What I Build</h3>
-          </div>
-          <ul class="space-y-3">
-            <li class="flex items-start gap-3 rounded-xl bg-paper/50 p-3">
-              <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
-                <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-              </span>
-              <span class="text-sm text-ink/80">ML systems with clean architecture and reproducible experiments</span>
-            </li>
-            <li class="flex items-start gap-3 rounded-xl bg-paper/50 p-3">
-              <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
-                <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-              </span>
-              <span class="text-sm text-ink/80">Backend systems and APIs with performance in mind</span>
-            </li>
-            <li class="flex items-start gap-3 rounded-xl bg-paper/50 p-3">
-              <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
-                <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-              </span>
-              <span class="text-sm text-ink/80">Simulations and engineering tools that actually work</span>
-            </li>
-            <li class="flex items-start gap-3 rounded-xl bg-paper/50 p-3">
-              <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
-                <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-              </span>
-              <span class="text-sm text-ink/80">Low-level systems: compilers, FPGA, embedded</span>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <img
+        src={avatarSrc}
+        alt={config.profile.name}
+        class="h-24 w-24 shrink-0 self-start rounded-xl object-cover ring-1 ring-ink/10"
+        loading="eager"
+      />
     </div>
   </section>
-  <SkillsGrid skills={config.skills} />
-  <ResumeCTA resume={config.resume} />
-  <Contact social={config.social} contact={config.contact} />
+
+  <!-- Tab navigation -->
+  <div class="border-b border-ink/10">
+    <nav class="flex" role="tablist">
+      <button role="tab" data-tab="projects" aria-selected="true" aria-controls="tab-projects" class="tab-btn -mb-px border-b-2 border-ink px-5 py-3 text-sm font-medium text-ink transition-colors">Projects</button>
+      <button role="tab" data-tab="skills" aria-selected="false" aria-controls="tab-skills" class="tab-btn -mb-px border-b-2 border-transparent px-5 py-3 text-sm font-medium text-muted transition-colors hover:text-ink">Skills</button>
+      <button role="tab" data-tab="resume" aria-selected="false" aria-controls="tab-resume" class="tab-btn -mb-px border-b-2 border-transparent px-5 py-3 text-sm font-medium text-muted transition-colors hover:text-ink">Resume</button>
+      <button role="tab" data-tab="contact" aria-selected="false" aria-controls="tab-contact" class="tab-btn -mb-px border-b-2 border-transparent px-5 py-3 text-sm font-medium text-muted transition-colors hover:text-ink">Contact</button>
+    </nav>
+  </div>
+
+  <!-- Tab panels -->
+  <div id="tab-projects" role="tabpanel" class="tab-panel">
+    <FeaturedHighlights />
+    <FeaturedProjects projects={projects} />
+  </div>
+
+  <div id="tab-skills" role="tabpanel" class="tab-panel hidden">
+    <SkillsGrid skills={config.skills} />
+  </div>
+
+  <div id="tab-resume" role="tabpanel" class="tab-panel hidden">
+    <ResumeCTA resume={config.resume} />
+  </div>
+
+  <div id="tab-contact" role="tabpanel" class="tab-panel hidden">
+    <Contact social={config.social} contact={config.contact} />
+  </div>
 </BaseLayout>
+
+<script>
+  const tabBtns = document.querySelectorAll<HTMLButtonElement>(".tab-btn");
+  const tabPanels = document.querySelectorAll<HTMLElement>(".tab-panel");
+  const validTabs = ["projects", "skills", "resume", "contact"];
+
+  function activateTab(id: string) {
+    tabBtns.forEach((btn) => {
+      const active = btn.dataset.tab === id;
+      btn.setAttribute("aria-selected", active ? "true" : "false");
+      btn.classList.toggle("border-ink", active);
+      btn.classList.toggle("text-ink", active);
+      btn.classList.toggle("border-transparent", !active);
+      btn.classList.toggle("text-muted", !active);
+    });
+    tabPanels.forEach((panel) => {
+      panel.classList.toggle("hidden", panel.id !== `tab-${id}`);
+    });
+    history.replaceState(null, "", `#${id}`);
+  }
+
+  tabBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tab = btn.dataset.tab;
+      if (tab) activateTab(tab);
+    });
+  });
+
+  const hash = window.location.hash.slice(1);
+  if (validTabs.includes(hash)) {
+    activateTab(hash);
+  }
+</script>

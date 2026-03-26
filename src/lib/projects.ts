@@ -121,37 +121,51 @@ export async function getProjects() {
   }
 
   const config = await loadConfig();
-  const repos = await fetchUserRepos(config.github.username);
-  const featuredTopic = config.github.featuredTopic;
-  const allowlist = new Set(config.github.allowlist ?? []);
 
-  const filtered = [];
-  for (const repo of repos) {
-    if (config.github.excludeForks && repo.fork) {
-      continue;
-    }
-    if (config.github.excludeArchived && repo.archived) {
-      continue;
+  // Try to use the pre-generated file as a fallback when the GitHub API is unavailable
+  let projects;
+  try {
+    const repos = await fetchUserRepos(config.github.username);
+    const featuredTopic = config.github.featuredTopic;
+    const allowlist = new Set(config.github.allowlist ?? []);
+
+    const filtered = [];
+    for (const repo of repos) {
+      if (config.github.excludeForks && repo.fork) {
+        continue;
+      }
+      if (config.github.excludeArchived && repo.archived) {
+        continue;
+      }
+
+      const withTopics = await ensureTopics(repo, featuredTopic);
+      if (allowlist.size > 0 && !allowlist.has(repo.name)) {
+        continue;
+      }
+      if (allowlist.size === 0 && featuredTopic && !withTopics.hasFeatured) {
+        continue;
+      }
+
+      filtered.push(withTopics);
     }
 
-    const withTopics = await ensureTopics(repo, featuredTopic);
-    if (allowlist.size > 0 && !allowlist.has(repo.name)) {
-      continue;
-    }
-    if (allowlist.size === 0 && featuredTopic && !withTopics.hasFeatured) {
-      continue;
-    }
+    const ranked = rankRepos(filtered, config.github.pinned, config.github.maxRepos);
+    projects = await Promise.all(
+      ranked.map((repo) => enrichRepo(repo, config)),
+    );
 
-    filtered.push(withTopics);
+    await fs.mkdir(path.dirname(GENERATED_PATH), { recursive: true });
+    await fs.writeFile(GENERATED_PATH, `${JSON.stringify(projects, null, 2)}\n`);
+  } catch (err) {
+    // GitHub API unavailable — fall back to pre-generated cache if present
+    try {
+      const raw = await fs.readFile(GENERATED_PATH, "utf8");
+      projects = JSON.parse(raw);
+    } catch {
+      // No cache available; render with an empty project list
+      projects = [];
+    }
   }
-
-  const ranked = rankRepos(filtered, config.github.pinned, config.github.maxRepos);
-  const projects = await Promise.all(
-    ranked.map((repo) => enrichRepo(repo, config)),
-  );
-
-  await fs.mkdir(path.dirname(GENERATED_PATH), { recursive: true });
-  await fs.writeFile(GENERATED_PATH, `${JSON.stringify(projects, null, 2)}\n`);
 
   cached = { config, projects };
   return cached;
